@@ -14,14 +14,13 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any | null>(null);
-  const [token, setToken] = useState<string | null>(localStorage.getItem('auth_token'));
+  const [token, setToken] = useState<string | null>(localStorage.getItem('credit-monitor-token'));
   const navigate = useNavigate();
 
-  const login = (userData: any, token: string) => {
+  const login = (userData: any, _: string) => {
     setIsAuthenticated(true);
     setUser(userData);
-    setToken(token);
-    localStorage.setItem('auth_token', token);
+    setToken(localStorage.getItem('credit-monitor-token'));
     navigate('/dashboard');
   };
 
@@ -29,7 +28,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsAuthenticated(false);
     setUser(null);
     setToken(null);
-    localStorage.removeItem('auth_token');
+    localStorage.removeItem('credit-monitor-token');
     navigate('/');
   };
 

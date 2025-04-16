@@ -7,30 +7,17 @@ export const PrivateRoute = () => {
 
   useEffect(() => {
     const validateToken = async () => {
-      if (!token) {
+      const creditMonitorToken = localStorage.getItem('credit-monitor-token');
+      
+      if (!creditMonitorToken) {
         logout();
         return;
-      }
-
-      try {
-        // Validar el token con Google
-        const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          logout();
-        }
-      } catch (error) {
-        console.error('Error validating token:', error);
-        logout();
       }
     };
 
     validateToken();
-  }, [token, logout]);
+  }, [logout]);
 
-  return isAuthenticated && token ? <Outlet /> : <Navigate to="/" replace />;
+  const creditMonitorToken = localStorage.getItem('credit-monitor-token');
+  return creditMonitorToken ? <Outlet /> : <Navigate to="/" replace />;
 }; 
