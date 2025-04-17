@@ -22,7 +22,7 @@ export default function Login() {
       const userInfo: GoogleUserInfo = jwtDecode(credentialResponse.credential);
 
       // First validate with our backend
-      const backendResponse = await fetch('http://127.0.0.1:8080/api/secure', {
+      const backendResponse = await fetch('http://127.0.0.1:8080/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
