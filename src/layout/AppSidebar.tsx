@@ -13,11 +13,6 @@ type NavItem = {
 const navItems: NavItem[] = [
   {
     icon: <PieChartIcon />,
-    name: "Line Chart",
-    path: "/line-chart"
-  },
-  {
-    icon: <PieChartIcon />,
     name: "Bar Chart",
     path: "/bar-chart"
   }

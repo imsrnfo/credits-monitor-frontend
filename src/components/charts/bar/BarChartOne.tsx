@@ -11,6 +11,39 @@ interface ChartData {
 }
 
 type TimeUnit = 'DAY' | 'WEEK' | 'MONTH';
+type CountryCode = 'ALL' | 'AR' | 'CL' | 'DO' | 'EC' | 'GT' | 'PE' | 'SV';
+type Integration = 'ALL' | 'ACCOUNTING' | 'CREATE_OFFER' | 'DEBT' | 'DEPOSIT' | 'INSTALLMENT_TAXES' | 'INVOICING' | 'NOTIFY' | 'PAYMENT' | 'SAVE_CLIENT' | 'SELECTED_DEBT';
+type ClientType = 'RIDER' | 'CONTRACT';
+
+const countries: { code: CountryCode; name: string }[] = [
+  { code: 'ALL', name: 'Todos los países' },
+  { code: 'AR', name: 'Argentina' },
+  { code: 'CL', name: 'Chile' },
+  { code: 'DO', name: 'República Dominicana' },
+  { code: 'EC', name: 'Ecuador' },
+  { code: 'GT', name: 'Guatemala' },
+  { code: 'PE', name: 'Perú' },
+  { code: 'SV', name: 'El Salvador' }
+];
+
+const integrations: { value: Integration; label: string }[] = [
+  { value: 'ALL', label: 'Todas las integraciones' },
+  { value: 'ACCOUNTING', label: 'Contabilidad' },
+  { value: 'CREATE_OFFER', label: 'Crear oferta' },
+  { value: 'DEBT', label: 'Deuda' },
+  { value: 'DEPOSIT', label: 'Depósito' },
+  { value: 'INSTALLMENT_TAXES', label: 'Impuestos en cuotas' },
+  { value: 'INVOICING', label: 'Facturación' },
+  { value: 'NOTIFY', label: 'Notificar' },
+  { value: 'PAYMENT', label: 'Pago' },
+  { value: 'SAVE_CLIENT', label: 'Guardar cliente' },
+  { value: 'SELECTED_DEBT', label: 'Deuda seleccionada' }
+];
+
+const clientTypes: { value: ClientType; label: string }[] = [
+  { value: 'CONTRACT', label: 'Contrato' },
+  { value: 'RIDER', label: 'Rider' }
+];
 
 export default function BarChartOne() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
@@ -18,6 +51,9 @@ export default function BarChartOne() {
   const [error, setError] = useState<string | null>(null);
   const [timeUnit, setTimeUnit] = useState<TimeUnit>('DAY');
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const [selectedCountry, setSelectedCountry] = useState<CountryCode>('ALL');
+  const [selectedIntegration, setSelectedIntegration] = useState<Integration>('ALL');
+  const [selectedClient, setSelectedClient] = useState<ClientType>('CONTRACT');
 
   const getFirstDayOfWeek = (date: Date) => {
     const day = date.getDay();
@@ -60,6 +96,13 @@ export default function BarChartOne() {
     return newDate;
   };
 
+  const formatWeekDays = (date: string) => {
+    const weekDays = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    const [year, month, day] = date.split('-').map(Number);
+    const d = new Date(year, month - 1, day);
+    return weekDays[d.getDay()];
+  };
+
   const fetchChartData = async (unit: TimeUnit, date: Date) => {
     try {
       const token = localStorage.getItem('credit-monitor-token');
@@ -67,18 +110,35 @@ export default function BarChartOne() {
         throw new Error('No authentication token found');
       }
 
-      let url = 'http://127.0.0.1:8080/api/contract/credits/accounting';
+      let url = 'http://127.0.0.1:8080/api/contract/credits';
       let formattedDate = formatDate(date);
+      
+      const params = new URLSearchParams();
       
       if (unit === 'WEEK') {
         const firstDayOfWeek = formatDate(getFirstDayOfWeek(new Date(date)));
-        url += `?unit=WEEK&date=${firstDayOfWeek}`;
+        params.append('unit', 'WEEK');
+        params.append('date', firstDayOfWeek);
       } else if (unit === 'MONTH') {
         const firstDayOfMonth = formatDate(getFirstDayOfMonth(new Date(date)));
-        url += `?unit=MONTH&date=${firstDayOfMonth}`;
+        params.append('unit', 'MONTH');
+        params.append('date', firstDayOfMonth);
       } else {
-        url += `?unit=DAY&date=${formattedDate}`;
+        params.append('unit', 'DAY');
+        params.append('date', formattedDate);
       }
+
+      if (selectedCountry !== 'ALL') {
+        params.append('country', selectedCountry);
+      }
+
+      if (selectedIntegration !== 'ALL') {
+        params.append('integration', selectedIntegration);
+      }
+
+      params.append('client', selectedClient);
+
+      url += `?${params.toString()}`;
 
       const response = await fetch(url, {
         headers: {
@@ -91,6 +151,17 @@ export default function BarChartOne() {
       }
 
       const data = await response.json();
+
+      if (unit === 'WEEK' && data.options?.xaxis?.categories) {
+        data.options = {
+          ...data.options,
+          xaxis: {
+            ...data.options.xaxis,
+            categories: data.options.xaxis.categories.map(formatWeekDays)
+          }
+        };
+      }
+
       setChartData(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -102,7 +173,7 @@ export default function BarChartOne() {
   useEffect(() => {
     setLoading(true);
     fetchChartData(timeUnit, currentDate);
-  }, [timeUnit, currentDate]);
+  }, [timeUnit, currentDate, selectedCountry, selectedIntegration, selectedClient]);
 
   const handleTimeUnitChange = (unit: TimeUnit) => {
     setTimeUnit(unit);
@@ -151,15 +222,50 @@ export default function BarChartOne() {
           <div className="text-gray-600 dark:text-gray-300">
             {formatDisplayDate(currentDate, timeUnit)}
           </div>
-          <select
-            value={timeUnit}
-            onChange={(e) => handleTimeUnitChange(e.target.value as TimeUnit)}
-            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="DAY">Día</option>
-            <option value="WEEK">Semana</option>
-            <option value="MONTH">Mes</option>
-          </select>
+          <div className="flex gap-2">
+            <select
+              value={selectedClient}
+              onChange={(e) => setSelectedClient(e.target.value as ClientType)}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {clientTypes.map(clientType => (
+                <option key={clientType.value} value={clientType.value}>
+                  {clientType.label}
+                </option>
+              ))}
+            </select>
+            <select
+              value={selectedCountry}
+              onChange={(e) => setSelectedCountry(e.target.value as CountryCode)}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {countries.map(country => (
+                <option key={country.code} value={country.code}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+            <select
+              value={selectedIntegration}
+              onChange={(e) => setSelectedIntegration(e.target.value as Integration)}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {integrations.map(integration => (
+                <option key={integration.value} value={integration.value}>
+                  {integration.label}
+                </option>
+              ))}
+            </select>
+            <select
+              value={timeUnit}
+              onChange={(e) => handleTimeUnitChange(e.target.value as TimeUnit)}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="DAY">Día</option>
+              <option value="WEEK">Semana</option>
+              <option value="MONTH">Mes</option>
+            </select>
+          </div>
         </div>
         <div className="flex items-center justify-center h-[310px]">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -189,15 +295,50 @@ export default function BarChartOne() {
           <div className="text-gray-600 dark:text-gray-300">
             {formatDisplayDate(currentDate, timeUnit)}
           </div>
-          <select
-            value={timeUnit}
-            onChange={(e) => handleTimeUnitChange(e.target.value as TimeUnit)}
-            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="DAY">Día</option>
-            <option value="WEEK">Semana</option>
-            <option value="MONTH">Mes</option>
-          </select>
+          <div className="flex gap-2">
+            <select
+              value={selectedClient}
+              onChange={(e) => setSelectedClient(e.target.value as ClientType)}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {clientTypes.map(clientType => (
+                <option key={clientType.value} value={clientType.value}>
+                  {clientType.label}
+                </option>
+              ))}
+            </select>
+            <select
+              value={selectedCountry}
+              onChange={(e) => setSelectedCountry(e.target.value as CountryCode)}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {countries.map(country => (
+                <option key={country.code} value={country.code}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+            <select
+              value={selectedIntegration}
+              onChange={(e) => setSelectedIntegration(e.target.value as Integration)}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {integrations.map(integration => (
+                <option key={integration.value} value={integration.value}>
+                  {integration.label}
+                </option>
+              ))}
+            </select>
+            <select
+              value={timeUnit}
+              onChange={(e) => handleTimeUnitChange(e.target.value as TimeUnit)}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="DAY">Día</option>
+              <option value="WEEK">Semana</option>
+              <option value="MONTH">Mes</option>
+            </select>
+          </div>
         </div>
         <div className="flex items-center justify-center h-[310px] text-red-500">
           {error}
@@ -227,15 +368,50 @@ export default function BarChartOne() {
           <div className="text-gray-600 dark:text-gray-300">
             {formatDisplayDate(currentDate, timeUnit)}
           </div>
-          <select
-            value={timeUnit}
-            onChange={(e) => handleTimeUnitChange(e.target.value as TimeUnit)}
-            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="DAY">Día</option>
-            <option value="WEEK">Semana</option>
-            <option value="MONTH">Mes</option>
-          </select>
+          <div className="flex gap-2">
+            <select
+              value={selectedClient}
+              onChange={(e) => setSelectedClient(e.target.value as ClientType)}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {clientTypes.map(clientType => (
+                <option key={clientType.value} value={clientType.value}>
+                  {clientType.label}
+                </option>
+              ))}
+            </select>
+            <select
+              value={selectedCountry}
+              onChange={(e) => setSelectedCountry(e.target.value as CountryCode)}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {countries.map(country => (
+                <option key={country.code} value={country.code}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+            <select
+              value={selectedIntegration}
+              onChange={(e) => setSelectedIntegration(e.target.value as Integration)}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {integrations.map(integration => (
+                <option key={integration.value} value={integration.value}>
+                  {integration.label}
+                </option>
+              ))}
+            </select>
+            <select
+              value={timeUnit}
+              onChange={(e) => handleTimeUnitChange(e.target.value as TimeUnit)}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="DAY">Día</option>
+              <option value="WEEK">Semana</option>
+              <option value="MONTH">Mes</option>
+            </select>
+          </div>
         </div>
         <div className="flex items-center justify-center h-[310px] text-gray-500">
           No data available
@@ -264,18 +440,53 @@ export default function BarChartOne() {
         <div className="text-gray-600 dark:text-gray-300">
           {formatDisplayDate(currentDate, timeUnit)}
         </div>
-        <select
-          value={timeUnit}
-          onChange={(e) => handleTimeUnitChange(e.target.value as TimeUnit)}
-          className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-        >
-          <option value="DAY">Día</option>
-          <option value="WEEK">Semana</option>
-          <option value="MONTH">Mes</option>
-        </select>
+        <div className="flex gap-2">
+          <select
+            value={selectedClient}
+            onChange={(e) => setSelectedClient(e.target.value as ClientType)}
+            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            {clientTypes.map(clientType => (
+              <option key={clientType.value} value={clientType.value}>
+                {clientType.label}
+              </option>
+            ))}
+          </select>
+          <select
+            value={selectedCountry}
+            onChange={(e) => setSelectedCountry(e.target.value as CountryCode)}
+            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            {countries.map(country => (
+              <option key={country.code} value={country.code}>
+                {country.name}
+              </option>
+            ))}
+          </select>
+          <select
+            value={selectedIntegration}
+            onChange={(e) => setSelectedIntegration(e.target.value as Integration)}
+            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            {integrations.map(integration => (
+              <option key={integration.value} value={integration.value}>
+                {integration.label}
+              </option>
+            ))}
+          </select>
+          <select
+            value={timeUnit}
+            onChange={(e) => handleTimeUnitChange(e.target.value as TimeUnit)}
+            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="DAY">Día</option>
+            <option value="WEEK">Semana</option>
+            <option value="MONTH">Mes</option>
+          </select>
+        </div>
       </div>
-    <div className="max-w-full overflow-x-auto custom-scrollbar">
-      <div id="chartOne" className="min-w-[1000px]">
+      <div className="max-w-full overflow-x-auto custom-scrollbar">
+        <div id="chartOne" className="min-w-[1000px]">
           <Chart 
             options={chartData.options} 
             series={chartData.series} 
