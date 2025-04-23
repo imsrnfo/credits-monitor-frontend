@@ -59,12 +59,13 @@ export default function Login() {
             onError={() => {
               console.error('Login Failed');
             }}
-            useOneTap
+            useOneTap={false}
             theme="filled_black"
             shape="pill"
             size="large"
             text="continue_with"
             locale="es"
+            type="standard"
           />
         </div>
       </div>

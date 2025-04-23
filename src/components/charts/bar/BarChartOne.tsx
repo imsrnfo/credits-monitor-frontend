@@ -155,7 +155,7 @@ export default function BarChartOne() {
       if (unit === 'WEEK' && data.options?.xaxis?.categories) {
         data.options = {
           ...data.options,
-          xaxis: {
+    xaxis: {
             ...data.options.xaxis,
             categories: data.options.xaxis.categories.map(formatWeekDays)
           }
@@ -485,8 +485,8 @@ export default function BarChartOne() {
           </select>
         </div>
       </div>
-      <div className="max-w-full overflow-x-auto custom-scrollbar">
-        <div id="chartOne" className="min-w-[1000px]">
+    <div className="max-w-full overflow-x-auto custom-scrollbar">
+      <div id="chartOne" className="min-w-[1000px]">
           <Chart 
             options={chartData.options} 
             series={chartData.series} 

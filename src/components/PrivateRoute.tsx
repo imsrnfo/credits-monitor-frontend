@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useEffect } from 'react';
 
 export const PrivateRoute = () => {
-  const { isAuthenticated, token, logout } = useAuth();
+  const { logout } = useAuth();
 
   useEffect(() => {
     const validateToken = async () => {

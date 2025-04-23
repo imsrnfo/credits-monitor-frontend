@@ -12,8 +12,10 @@ import { ThemeProvider } from "./context/ThemeContext.tsx";
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <GoogleOAuthProvider clientId="407468779295-n5k2ibcrss2b08hm4b238ifslabsut65.apps.googleusercontent.com">
+    <BrowserRouter basename="/credits-monitor-frontend">
+      <GoogleOAuthProvider 
+        clientId="407468779295-n5k2ibcrss2b08hm4b238ifslabsut65.apps.googleusercontent.com"
+      >
         <AuthProvider>
           <ThemeProvider>
             <AppWrapper>
