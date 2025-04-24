@@ -110,7 +110,7 @@ export default function BarChartOne() {
         throw new Error('No authentication token found');
       }
 
-      let url = 'http://127.0.0.1:8080/api/contract/credits';
+      let url = 'http://peya-credits.ddns.net:8081/api/contract/credits';
       let formattedDate = formatDate(date);
       
       const params = new URLSearchParams();

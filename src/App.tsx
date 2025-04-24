@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import LineChart from "./pages/Charts/LineChart";
 import BarChart from "./pages/Charts/BarChart";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
@@ -18,8 +17,7 @@ export default function App() {
         <Route element={<PrivateRoute />}>
           <Route element={<AppLayout />}>
             <Route path="/dashboard" element={<Home />} />
-            <Route path="/line-chart" element={<LineChart />} />
-            <Route path="/bar-chart" element={<BarChart />} />
+            <Route path="/messages" element={<BarChart />} />
           </Route>
         </Route>
       </Routes>
