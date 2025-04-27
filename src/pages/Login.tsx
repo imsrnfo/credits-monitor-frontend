@@ -1,6 +1,7 @@
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { useAuth } from '../context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
+import api from '../services/api';
 
 interface GoogleUserInfo {
   email: string;
@@ -22,10 +23,8 @@ export default function Login() {
       const userInfo: GoogleUserInfo = jwtDecode(credentialResponse.credential);
 
       // First validate with our backend
-      const backendResponse = await fetch('https://peya-credits.ddns.net/api/login', {
-        method: 'POST',
+      const backendResponse = await api.post('/login', null, {
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${credentialResponse.credential}`
         }
       });
@@ -35,13 +34,10 @@ export default function Login() {
       }
 
       // Get the token from backend response
-      const backendToken = await backendResponse.text();
-      
-      // Store the backend token in localStorage
-      localStorage.setItem('credit-monitor-token', backendToken);
+      const backendToken = backendResponse.data;
 
       // Use the decoded user info directly
-      login(userInfo, credentialResponse.credential);
+      login(userInfo, backendToken);
     } catch (error) {
       console.error('Error during login process:', error);
     }

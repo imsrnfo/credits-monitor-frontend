@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
-import { useNavigate } from 'react-router';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -16,11 +16,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<any | null>(null);
   const [token, setToken] = useState<string | null>(localStorage.getItem('credit-monitor-token'));
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const login = (userData: any, _: string) => {
+  // Función para interceptar errores de autenticación en las respuestas
+  const setupAuthInterceptor = () => {
+    const originalFetch = window.fetch;
+    window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+      try {
+        const response = await originalFetch(input, init);
+        
+        if (response.status === 401 || response.status === 403) {
+          logout();
+          return response;
+        }
+        
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    };
+  };
+
+  useEffect(() => {
+    setupAuthInterceptor();
+    
+    // Verificar token inicial y redirigir si es necesario
+    const storedToken = localStorage.getItem('credit-monitor-token');
+    if (storedToken && location.pathname === '/') {
+      setIsAuthenticated(true);
+      setToken(storedToken);
+      navigate('/dashboard');
+    } else if (!storedToken && location.pathname !== '/' && location.pathname !== '/server-offline') {
+      navigate('/');
+    }
+  }, []);
+
+  const login = (userData: any, newToken: string) => {
     setIsAuthenticated(true);
     setUser(userData);
-    setToken(localStorage.getItem('credit-monitor-token'));
+    setToken(newToken);
+    localStorage.setItem('credit-monitor-token', newToken);
     navigate('/dashboard');
   };
 

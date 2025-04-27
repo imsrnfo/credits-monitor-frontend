@@ -1,9 +1,12 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import api from '../services/api';
 
 export const PrivateRoute = () => {
-  const { logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [valid, setValid] = useState<boolean | null>(null);
 
   useEffect(() => {
     const validateToken = async () => {
@@ -11,13 +14,37 @@ export const PrivateRoute = () => {
       
       if (!creditMonitorToken) {
         logout();
+        setValid(false);
+        setLoading(false);
         return;
+      }
+
+      try {
+        // Intentar hacer una petición al backend para validar el token
+        const response = await api.get('/contract/credits');
+
+        if (response.status !== 200) {
+          throw new Error('Token validation failed');
+        }
+        setValid(true);
+      } catch (error) {
+        logout();
+        setValid(false);
+      } finally {
+        setLoading(false);
       }
     };
 
     validateToken();
   }, [logout]);
 
-  const creditMonitorToken = localStorage.getItem('credit-monitor-token');
-  return creditMonitorToken ? <Outlet /> : <Navigate to="/" replace />;
+  if (loading) {
+    return <div className="flex items-center justify-center min-h-screen">Cargando...</div>;
+  }
+
+  if (!valid) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <Outlet />;
 }; 

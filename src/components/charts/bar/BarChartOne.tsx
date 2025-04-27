@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import api from "../../../services/api";
 
 interface ChartData {
   options: ApexOptions;
@@ -110,9 +111,7 @@ export default function BarChartOne() {
         throw new Error('No authentication token found');
       }
 
-      let url = 'https://peya-credits.ddns.net/api/contract/credits';
       let formattedDate = formatDate(date);
-      
       const params = new URLSearchParams();
       
       if (unit === 'WEEK') {
@@ -138,24 +137,18 @@ export default function BarChartOne() {
 
       params.append('client', selectedClient);
 
-      url += `?${params.toString()}`;
+      const response = await api.get(`/contract/credits?${params.toString()}`);
 
-      const response = await fetch(url, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error('Failed to fetch chart data');
       }
 
-      const data = await response.json();
+      const data = response.data;
 
       if (unit === 'WEEK' && data.options?.xaxis?.categories) {
         data.options = {
           ...data.options,
-    xaxis: {
+          xaxis: {
             ...data.options.xaxis,
             categories: data.options.xaxis.categories.map(formatWeekDays)
           }
