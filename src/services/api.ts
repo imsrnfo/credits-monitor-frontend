@@ -1,7 +1,7 @@
 import axios, { InternalAxiosRequestConfig, AxiosHeaders } from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://peya-credits.ddns.net/api',
+  baseURL: `${import.meta.env.VITE_API_URL}/api`,
 });
 
 // Add a request interceptor

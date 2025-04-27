@@ -23,7 +23,7 @@ export default function ServerCheck({ children }: ServerCheckProps) {
         setIsChecking(true);
       }
       
-      const response = await fetch('https://peya-credits.ddns.net/');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/`);
       
       if (!response.ok) {
         throw new Error('Server is not responding correctly');

@@ -21,7 +21,7 @@ export const PrivateRoute = () => {
 
       try {
         // Intentar hacer una petición al backend para validar el token
-        const response = await api.get('/contract/credits');
+        const response = await api.get('/validate/token');
 
         if (response.status !== 200) {
           throw new Error('Token validation failed');

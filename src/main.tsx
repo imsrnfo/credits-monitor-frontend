@@ -1,4 +1,4 @@
-import React from 'react';
+//import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { BrowserRouter } from 'react-router-dom';
@@ -11,7 +11,7 @@ import { AppWrapper } from "./components/common/PageMeta.tsx";
 import { ThemeProvider } from "./context/ThemeContext.tsx";
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  //<React.StrictMode>
     <BrowserRouter basename="/credits-monitor-frontend">
       <GoogleOAuthProvider 
         clientId="407468779295-n5k2ibcrss2b08hm4b238ifslabsut65.apps.googleusercontent.com"
@@ -25,5 +25,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </AuthProvider>
       </GoogleOAuthProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  //</React.StrictMode>
 );
