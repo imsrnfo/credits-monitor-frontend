@@ -110,7 +110,7 @@ export default function BarChartOne() {
         throw new Error('No authentication token found');
       }
 
-      let url = 'http://peya-credits.ddns.net:8081/api/contract/credits';
+      let url = 'https://peya-credits.ddns.net/api/contract/credits';
       let formattedDate = formatDate(date);
       
       const params = new URLSearchParams();
@@ -204,8 +204,8 @@ export default function BarChartOne() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <div className="flex gap-2">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+          <div className="flex justify-between w-full lg:w-auto">
             <button
               onClick={handlePrevious}
               className="px-4 py-2 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
@@ -219,14 +219,14 @@ export default function BarChartOne() {
               Siguiente
             </button>
           </div>
-          <div className="text-gray-600 dark:text-gray-300">
+          <div className="text-gray-600 dark:text-gray-300 text-center w-full lg:w-auto">
             {formatDisplayDate(currentDate, timeUnit)}
           </div>
-          <div className="flex gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex gap-2 w-full lg:w-auto">
             <select
               value={selectedClient}
               onChange={(e) => setSelectedClient(e.target.value as ClientType)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
             >
               {clientTypes.map(clientType => (
                 <option key={clientType.value} value={clientType.value}>
@@ -237,7 +237,7 @@ export default function BarChartOne() {
             <select
               value={selectedCountry}
               onChange={(e) => setSelectedCountry(e.target.value as CountryCode)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
             >
               {countries.map(country => (
                 <option key={country.code} value={country.code}>
@@ -248,7 +248,7 @@ export default function BarChartOne() {
             <select
               value={selectedIntegration}
               onChange={(e) => setSelectedIntegration(e.target.value as Integration)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
             >
               {integrations.map(integration => (
                 <option key={integration.value} value={integration.value}>
@@ -259,7 +259,7 @@ export default function BarChartOne() {
             <select
               value={timeUnit}
               onChange={(e) => handleTimeUnitChange(e.target.value as TimeUnit)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
             >
               <option value="DAY">Día</option>
               <option value="WEEK">Semana</option>
@@ -277,8 +277,8 @@ export default function BarChartOne() {
   if (error) {
     return (
       <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <div className="flex gap-2">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+          <div className="flex justify-between w-full lg:w-auto">
             <button
               onClick={handlePrevious}
               className="px-4 py-2 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
@@ -292,14 +292,14 @@ export default function BarChartOne() {
               Siguiente
             </button>
           </div>
-          <div className="text-gray-600 dark:text-gray-300">
+          <div className="text-gray-600 dark:text-gray-300 text-center w-full lg:w-auto">
             {formatDisplayDate(currentDate, timeUnit)}
           </div>
-          <div className="flex gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex gap-2 w-full lg:w-auto">
             <select
               value={selectedClient}
               onChange={(e) => setSelectedClient(e.target.value as ClientType)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
             >
               {clientTypes.map(clientType => (
                 <option key={clientType.value} value={clientType.value}>
@@ -310,7 +310,7 @@ export default function BarChartOne() {
             <select
               value={selectedCountry}
               onChange={(e) => setSelectedCountry(e.target.value as CountryCode)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
             >
               {countries.map(country => (
                 <option key={country.code} value={country.code}>
@@ -321,7 +321,7 @@ export default function BarChartOne() {
             <select
               value={selectedIntegration}
               onChange={(e) => setSelectedIntegration(e.target.value as Integration)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
             >
               {integrations.map(integration => (
                 <option key={integration.value} value={integration.value}>
@@ -332,7 +332,7 @@ export default function BarChartOne() {
             <select
               value={timeUnit}
               onChange={(e) => handleTimeUnitChange(e.target.value as TimeUnit)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
             >
               <option value="DAY">Día</option>
               <option value="WEEK">Semana</option>
@@ -350,8 +350,8 @@ export default function BarChartOne() {
   if (!chartData) {
     return (
       <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <div className="flex gap-2">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+          <div className="flex justify-between w-full lg:w-auto">
             <button
               onClick={handlePrevious}
               className="px-4 py-2 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
@@ -365,14 +365,14 @@ export default function BarChartOne() {
               Siguiente
             </button>
           </div>
-          <div className="text-gray-600 dark:text-gray-300">
+          <div className="text-gray-600 dark:text-gray-300 text-center w-full lg:w-auto">
             {formatDisplayDate(currentDate, timeUnit)}
           </div>
-          <div className="flex gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex gap-2 w-full lg:w-auto">
             <select
               value={selectedClient}
               onChange={(e) => setSelectedClient(e.target.value as ClientType)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
             >
               {clientTypes.map(clientType => (
                 <option key={clientType.value} value={clientType.value}>
@@ -383,7 +383,7 @@ export default function BarChartOne() {
             <select
               value={selectedCountry}
               onChange={(e) => setSelectedCountry(e.target.value as CountryCode)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
             >
               {countries.map(country => (
                 <option key={country.code} value={country.code}>
@@ -394,7 +394,7 @@ export default function BarChartOne() {
             <select
               value={selectedIntegration}
               onChange={(e) => setSelectedIntegration(e.target.value as Integration)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
             >
               {integrations.map(integration => (
                 <option key={integration.value} value={integration.value}>
@@ -405,7 +405,7 @@ export default function BarChartOne() {
             <select
               value={timeUnit}
               onChange={(e) => handleTimeUnitChange(e.target.value as TimeUnit)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
             >
               <option value="DAY">Día</option>
               <option value="WEEK">Semana</option>
@@ -422,8 +422,8 @@ export default function BarChartOne() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <div className="flex gap-2">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+        <div className="flex justify-between w-full lg:w-auto">
           <button
             onClick={handlePrevious}
             className="px-4 py-2 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
@@ -437,14 +437,14 @@ export default function BarChartOne() {
             Siguiente
           </button>
         </div>
-        <div className="text-gray-600 dark:text-gray-300">
+        <div className="text-gray-600 dark:text-gray-300 text-center w-full lg:w-auto">
           {formatDisplayDate(currentDate, timeUnit)}
         </div>
-        <div className="flex gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex gap-2 w-full lg:w-auto">
           <select
             value={selectedClient}
             onChange={(e) => setSelectedClient(e.target.value as ClientType)}
-            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
           >
             {clientTypes.map(clientType => (
               <option key={clientType.value} value={clientType.value}>
@@ -455,7 +455,7 @@ export default function BarChartOne() {
           <select
             value={selectedCountry}
             onChange={(e) => setSelectedCountry(e.target.value as CountryCode)}
-            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
           >
             {countries.map(country => (
               <option key={country.code} value={country.code}>
@@ -466,7 +466,7 @@ export default function BarChartOne() {
           <select
             value={selectedIntegration}
             onChange={(e) => setSelectedIntegration(e.target.value as Integration)}
-            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
           >
             {integrations.map(integration => (
               <option key={integration.value} value={integration.value}>
@@ -477,7 +477,7 @@ export default function BarChartOne() {
           <select
             value={timeUnit}
             onChange={(e) => handleTimeUnitChange(e.target.value as TimeUnit)}
-            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
           >
             <option value="DAY">Día</option>
             <option value="WEEK">Semana</option>
@@ -485,8 +485,8 @@ export default function BarChartOne() {
           </select>
         </div>
       </div>
-    <div className="max-w-full overflow-x-auto custom-scrollbar">
-      <div id="chartOne" className="min-w-[1000px]">
+      <div className="max-w-full overflow-x-auto custom-scrollbar">
+        <div id="chartOne" className="min-w-[1000px]">
           <Chart 
             options={chartData.options} 
             series={chartData.series} 

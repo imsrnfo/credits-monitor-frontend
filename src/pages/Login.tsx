@@ -22,7 +22,7 @@ export default function Login() {
       const userInfo: GoogleUserInfo = jwtDecode(credentialResponse.credential);
 
       // First validate with our backend
-      const backendResponse = await fetch('http://peya-credits.ddns.net:8081/api/login', {
+      const backendResponse = await fetch('https://peya-credits.ddns.net/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
