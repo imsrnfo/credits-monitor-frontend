@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import api from '../services/api';
 
 export const PrivateRoute = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { logout } = useAuth();
   const [loading, setLoading] = useState(true);
   const [valid, setValid] = useState<boolean | null>(null);
 

@@ -1,3 +1,19 @@
+# Como preparar ambiente
+
+1. Levantar tunnel ssh
+2. Levantar docker deamon
+3. Abrir una consola en el directorio `C:\Users\ignacio.silva\Desktop\docker`
+4. Correr comando: `docker compose up` (si queremos que corra en background correr `docker compose up -d`)
+5. Abrir intellij y correr proyecto `credits-monitor-backend`
+
+Opcional
+6. Si queremos modificar el frontend abrir proyecto `credits-monitor-frontend` y correr `npm run dev`
+
+# Como deployar en Github pages
+
+1. Correr comando: `npm run build`
+2. Correr comando: `npx gh-pages -d dist -r https://github.com/imsrnfo/credits-monitor-frontend.git`
+
 # TailAdmin React - Free React Tailwind Admin Dashboard Template
 
 TailAdmin is a free and open-source admin dashboard template built on **React and Tailwind CSS**, providing developers
