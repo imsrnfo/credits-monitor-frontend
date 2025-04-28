@@ -1,6 +1,6 @@
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import ComponentCard from "../../components/common/ComponentCard";
-import MessagesBarChartOne from "../../components/charts/bar/MessagesBarChartOne";
+import InstallmentsBarChartOne from "../../components/charts/bar/InstallmentsBarChartOne";
 import PageMeta from "../../components/common/PageMeta";
 
 export default function InstallmentsChart() {
@@ -13,7 +13,7 @@ export default function InstallmentsChart() {
       <PageBreadcrumb pageTitle="Cuotas" />
       <div className="space-y-6">
         <ComponentCard title="Cuotas">
-          <MessagesBarChartOne />
+          <InstallmentsBarChartOne />
         </ComponentCard>
       </div>
     </div>

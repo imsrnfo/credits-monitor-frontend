@@ -85,7 +85,7 @@ export default function Home() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
-        Dashboard
+        {`Créditos ${new Date().getFullYear()}`}
       </h1>
       <div className="space-y-10">
         {COUNTRIES.map((country) => (
