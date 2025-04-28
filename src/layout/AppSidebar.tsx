@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { PieChartIcon } from "../icons";
+import { DollarLineIcon, FileIcon, MailIcon, PieChartIcon } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 import { useAuth } from "../context/AuthContext";
 
@@ -12,7 +12,17 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   {
-    icon: <PieChartIcon />,
+    icon: <FileIcon />,
+    name: "Credits",
+    path: "/dashboard"
+  },
+  {
+    icon: <DollarLineIcon />,
+    name: "Cuotas",
+    path: "/installments"
+  },
+  {
+    icon: <MailIcon />,
     name: "Mensajes",
     path: "/messages"
   }

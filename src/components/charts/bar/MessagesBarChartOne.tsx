@@ -46,7 +46,7 @@ const clientTypes: { value: ClientType; label: string }[] = [
   { value: 'RIDER', label: 'Rider' }
 ];
 
-export default function BarChartOne() {
+export default function MessagesBarChartOne() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
