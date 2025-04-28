@@ -91,7 +91,7 @@ export default function Home() {
         {COUNTRIES.map((country) => (
           <div key={country}>
             <h2 className="text-xl font-bold mb-4 text-blue-700 dark:text-blue-300 flex items-center gap-2">
-              <img src={COUNTRY_FLAGS[country]} alt={COUNTRY_NAMES[country]} className="w-6 h-6 inline-block" />
+              <span className={`fi fi-${country.toLowerCase()} w-6 h-6`} />
               {COUNTRY_NAMES[country]}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

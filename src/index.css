@@ -1,3 +1,4 @@
+@import 'flag-icons/css/flag-icons.min.css';
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap")
 layer(base);
 
@@ -776,3 +777,12 @@ span.flatpickr-weekday,
 .simplebar-scrollbar.simplebar-visible:before {
   @apply opacity-100;
 }
+
+/* Override para servir banderas desde /credits-monitor-frontend/flags/4x3/ */
+.fi.fi-ar { background-image: url('/credits-monitor-frontend/flags/4x3/ar.svg') !important; }
+.fi.fi-cl { background-image: url('/credits-monitor-frontend/flags/4x3/cl.svg') !important; }
+.fi.fi-do { background-image: url('/credits-monitor-frontend/flags/4x3/do.svg') !important; }
+.fi.fi-ec { background-image: url('/credits-monitor-frontend/flags/4x3/ec.svg') !important; }
+.fi.fi-gt { background-image: url('/credits-monitor-frontend/flags/4x3/gt.svg') !important; }
+.fi.fi-pe { background-image: url('/credits-monitor-frontend/flags/4x3/pe.svg') !important; }
+.fi.fi-sv { background-image: url('/credits-monitor-frontend/flags/4x3/sv.svg') !important; }
