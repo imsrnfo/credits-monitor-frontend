@@ -137,7 +137,7 @@ export default function BarChartOne() {
 
       params.append('client', selectedClient);
 
-      const response = await api.get(`/contract/credits?${params.toString()}`);
+      const response = await api.get(`/messages?${params.toString()}`);
 
       if (response.status !== 200) {
         throw new Error('Failed to fetch chart data');
