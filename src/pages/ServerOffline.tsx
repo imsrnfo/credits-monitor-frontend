@@ -4,7 +4,7 @@ export default function ServerOffline() {
   const navigate = useNavigate();
 
   const handleRetry = () => {
-    navigate('/');
+    navigate('//');
   };
 
   return (

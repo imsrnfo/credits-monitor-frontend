@@ -9,6 +9,7 @@ import ServerCheck from "./components/ServerCheck";
 import ServerOffline from "./pages/ServerOffline";
 import Loading from "./pages/Loading";
 import InstallmentsChart from "./pages/Charts/InstallmentsChart";
+import PaymentsChart from "./pages/Charts/PaymentsChart";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
               <Route path="/dashboard" element={<Home />} />
               <Route path="/messages" element={<MessagesChart />} />
               <Route path="/installments" element={<InstallmentsChart />} />
+              <Route path="/payments" element={<PaymentsChart />} />
             </Route>
           </Route>
         </Routes>

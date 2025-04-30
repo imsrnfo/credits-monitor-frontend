@@ -22,6 +22,11 @@ const navItems: NavItem[] = [
     path: "/installments"
   },
   {
+    icon: <DollarLineIcon />,
+    name: "Pagos",
+    path: "/payments"
+  },
+  {
     icon: <MailIcon />,
     name: "Mensajes",
     path: "/messages"
