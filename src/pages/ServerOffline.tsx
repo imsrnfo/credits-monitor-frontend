@@ -1,10 +1,23 @@
 import { useNavigate } from 'react-router-dom';
+import api from '../services/api';
+import { useState } from 'react';
 
 export default function ServerOffline() {
   const navigate = useNavigate();
+  const [isRetrying, setIsRetrying] = useState(false);
 
-  const handleRetry = () => {
-    navigate('//');
+  const handleRetry = async () => {
+    setIsRetrying(true);
+    try {
+      await api.get('/health');
+      // Si la llamada es exitosa, redirigimos al login
+      navigate('//');
+    } catch (error) {
+      // Si falla, nos quedamos en la página actual
+      console.error('Server is still offline:', error);
+    } finally {
+      setIsRetrying(false);
+    }
   };
 
   return (
@@ -23,9 +36,19 @@ export default function ServerOffline() {
         </p>
         <button
           onClick={handleRetry}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+          disabled={isRetrying}
+          className={`w-full bg-blue-600 text-white py-2 px-4 rounded-lg transition-colors font-medium ${
+            isRetrying ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'
+          }`}
         >
-          Reintentar
+          {isRetrying ? (
+            <div className="flex items-center justify-center">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+              Reintentando...
+            </div>
+          ) : (
+            'Reintentar'
+          )}
         </button>
       </div>
     </div>
