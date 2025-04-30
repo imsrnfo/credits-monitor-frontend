@@ -14,7 +14,6 @@ interface ChartData {
 type TimeUnit = 'DAY' | 'WEEK' | 'MONTH';
 type CountryCode = 'ALL' | 'AR' | 'CL' | 'DO' | 'EC' | 'GT' | 'PE' | 'SV';
 type Status = 'ALL' | 'COLLECTING' | 'INVOICED' | 'INVOICING' | 'PAID' | 'PENDING' | 'UNCOLLECTABLE';
-type Integration = 'ALL' | 'ACCOUNTING' | 'CREATE_OFFER' | 'DEBT' | 'DEPOSIT' | 'INSTALLMENT_TAXES' | 'INVOICING' | 'NOTIFY' | 'PAYMENT' | 'SAVE_CLIENT' | 'SELECTED_DEBT';
 type ClientType = 'RIDER' | 'CONTRACT';
 
 const countries: { code: CountryCode; name: string }[] = [
@@ -26,20 +25,6 @@ const countries: { code: CountryCode; name: string }[] = [
   { code: 'GT', name: 'Guatemala' },
   { code: 'PE', name: 'Perú' },
   { code: 'SV', name: 'El Salvador' }
-];
-
-const integrations: { value: Integration; label: string }[] = [
-  { value: 'ALL', label: 'Todas las integraciones' },
-  { value: 'ACCOUNTING', label: 'Contabilidad' },
-  { value: 'CREATE_OFFER', label: 'Crear oferta' },
-  { value: 'DEBT', label: 'Deuda' },
-  { value: 'DEPOSIT', label: 'Depósito' },
-  { value: 'INSTALLMENT_TAXES', label: 'Impuestos en cuotas' },
-  { value: 'INVOICING', label: 'Facturación' },
-  { value: 'NOTIFY', label: 'Notificar' },
-  { value: 'PAYMENT', label: 'Pago' },
-  { value: 'SAVE_CLIENT', label: 'Guardar cliente' },
-  { value: 'SELECTED_DEBT', label: 'Deuda seleccionada' }
 ];
 
 const clientTypes: { value: ClientType; label: string }[] = [

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { DollarLineIcon, FileIcon, MailIcon, PieChartIcon } from "../icons";
+import { DollarLineIcon, FileIcon, MailIcon } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 import { useAuth } from "../context/AuthContext";
 

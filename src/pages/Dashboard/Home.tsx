@@ -32,17 +32,6 @@ interface Credit {
   qty: number;
 }
 
-// Mapeo de país a archivo de bandera
-const COUNTRY_FLAGS: Record<string, string> = {
-  AR: "/credits-monitor-frontend/images/country/country-01.svg",
-  CL: "/credits-monitor-frontend/images/country/country-02.svg",
-  DO: "/credits-monitor-frontend/images/country/country-03.svg",
-  EC: "/credits-monitor-frontend/images/country/country-04.svg",
-  GT: "/credits-monitor-frontend/images/country/country-05.svg",
-  PE: "/credits-monitor-frontend/images/country/country-06.svg",
-  SV: "/credits-monitor-frontend/images/country/country-07.svg",
-};
-
 export default function Home() {
   const [credits, setCredits] = useState<Credit[]>([]);
   const [loading, setLoading] = useState(true);
