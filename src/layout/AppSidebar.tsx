@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { DollarLineIcon, FileIcon, MailIcon } from "../icons";
+import { DollarLineIcon, FileIcon, MailIcon, ShootingStarIcon } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 import { useAuth } from "../context/AuthContext";
 
@@ -30,6 +30,11 @@ const navItems: NavItem[] = [
     icon: <MailIcon />,
     name: "Mensajes",
     path: "/messages"
+  },
+  {
+    icon: <ShootingStarIcon />,
+    name: "Ofertas",
+    path: "/ofertas"
   }
 ];
 

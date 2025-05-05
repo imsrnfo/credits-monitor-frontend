@@ -10,6 +10,7 @@ import ServerOffline from "./pages/ServerOffline";
 import Loading from "./pages/Loading";
 import InstallmentsChart from "./pages/Charts/InstallmentsChart";
 import PaymentsChart from "./pages/Charts/PaymentsChart";
+import OfertasChart from "./pages/Charts/OfertasChart";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
               <Route path="/messages" element={<MessagesChart />} />
               <Route path="/installments" element={<InstallmentsChart />} />
               <Route path="/payments" element={<PaymentsChart />} />
+              <Route path="/ofertas" element={<OfertasChart />} />
             </Route>
           </Route>
         </Routes>
